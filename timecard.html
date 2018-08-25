@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TimeCard</title>
+  <script src="jquery-3.3.1.js"></script>
+</head>
+<body>
+<template id="selector">
+  <button id="modal" onclick="openModal();">open dialog</button>
+  <hr />
+  <form id="myForm" name="myForm" method="POST">
+    <table>
+      <tr>
+        <th><label>Username</label></th>
+        <td><input type="text" name="username" /></td>
+      </tr>
+      <tr>
+        <th><label>Password</label></th>
+        <td><input type="password" name="password" /></td>
+      </tr>
+      <tr>
+        <th><label>Message</label></th>
+        <td><textarea id="recvMsg" name="message"></textarea></td>
+      </tr>
+      <tr>
+        <th><label>Enable</label></th>
+        <th><input type="checkbox" name="enable" /></th>
+      </tr>
+      <tr>
+        <th><label>Type</label></th>
+        <td>
+          <select id="type" name="type">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <th></th>
+        <td>
+          <button type="submit">Submit</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</template>
+<script>
+  $(document).ready(() => {
+    $($('#selector').html()).appendTo('body');
+
+    // form override
+    $('#myForm').submit(function(e) { 
+      e.preventDefault();
+      let fields = $(e.target).find('[name]');
+      let msg = '';
+      fields.map(idx => msg += `${fields.get(idx).name}=${
+        (fields.get(idx).type === 'checkbox') ? fields.get(idx).checked : fields.get(idx).value 
+      };\n`);
+      alert(msg);
+    });
+  });
+
+  function openModal() {
+    var w = window.open('dialog.html', undefined, 'width=800, height=600, top=100, left=100');
+    w.addEventListener("message", msg => {
+      $('#recvMsg').val(msg.data);
+    }, false);
+  };
+
+</script>
+<style>
+  table {
+    width: 400px;
+  }
+
+  td > * {
+    width: 100%;
+  }
+</style>
+</body>
+</html>
