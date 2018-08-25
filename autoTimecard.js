@@ -39,6 +39,7 @@ const {Builder, By, Key, until} = require('selenium-webdriver');
       await driver.findElement(By.xpath('//*[@id="myForm"]/table/tbody/tr[6]/td/button')).click();
     });
   } finally {
+    // await new Promise(res => setTimeout(res, 2000));
     // await driver.quit();  // close all browser
     console.log(`[DEBUG] All Test Done!`);
   }
